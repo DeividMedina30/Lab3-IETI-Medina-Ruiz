@@ -21,29 +21,45 @@ public class UsersServiceMongoDb implements UsersService {
     @Override
     public User save(User user) {
         //TODO implement this method
+        Optional<User> usuarioExistente = userMongoRepository.findById(user.getId());
+        if (usuarioExistente.isEmpty()){
+            return userMongoRepository.save(user);
+        }
         return null;
     }
 
     @Override
     public Optional<User> findById(String id) {
         //TODO implement this method
-        return Optional.empty();
+        try {
+            return userMongoRepository.findById(id);
+        }catch (Exception e){
+            return Optional.empty();
+        }
     }
 
     @Override
     public List<User> all() {
         //TODO implement this method
-        return null;
+        return userMongoRepository.findAll();
     }
 
     @Override
     public void deleteById(String id) {
         //TODO implement this method
+        Optional<User> user= userMongoRepository.findById(id);
+        if(!user.isEmpty()){
+            userMongoRepository.deleteById(id);
+        }
     }
 
     @Override
     public User update(User user, String userId) {
         //TODO implement this method
+        Optional<User> userExistente = userMongoRepository.findById(userId);
+        if (!userExistente.isEmpty()){
+            return userMongoRepository.save(user);
+        }
         return null;
     }
 }
